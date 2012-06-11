@@ -56,7 +56,7 @@ class ActivityObject < ActiveRecord::Base
   before_validation :fill_owner_id, :fill_user_author_id, :fill_relation_ids, :if => lambda { |obj| obj.object_type != "Actor" }
 
   validates_presence_of :object_type
-  validate :allowed_relations, :if => lambda { |obj| obj.object_type != "Actor" }
+  #validate :allowed_relations, :if => lambda { |obj| obj.object_type != "Actor" }
 
   # TODO: This is currently defined in lib/social_stream/models/object.rb
   #
