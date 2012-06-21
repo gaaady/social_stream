@@ -4,16 +4,16 @@ Gem::Specification.new do |s|
   s.name = "social_stream"
   s.version = SocialStream::VERSION.dup
   s.summary = "A core for building social network websites"
-  s.description = "Social Stream is a Ruby on Rails engine for building social network websites. It supports contacts, posts, file uploads, private messages and many more."
+  s.description = "Social Stream is a Ruby on Rails engine for building social network websites. It supports contacts, posts, file uploads, private messages and much more."
   s.authors = [ "GING - DIT - UPM",
                 "CISE - ESPOL" ]
   s.homepage = "http://social-stream.dit.upm.es/"
   s.files = `git ls-files`.split("\n")
 
   # Gem dependencies
-  s.add_runtime_dependency('social_stream-base', '~> 0.21.0')
-  s.add_runtime_dependency('social_stream-documents', '~> 0.15.0')
-  s.add_runtime_dependency('social_stream-events', '~> 0.13.0')
+  s.add_runtime_dependency('social_stream-base', '~> 0.21.2')
+  s.add_runtime_dependency('social_stream-documents', '~> 0.15.1')
+  s.add_runtime_dependency('social_stream-events', '~> 0.13.2')
   s.add_runtime_dependency('social_stream-linkser', '~> 0.12.0')
   s.add_runtime_dependency('social_stream-presence', '~> 0.14.0')
  

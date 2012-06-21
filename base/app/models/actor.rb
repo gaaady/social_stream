@@ -5,7 +5,7 @@
 # type of a {Tie} is a {Relation}. Each actor can define and customize their relations own
 # {Relation Relations}.
 #
-# Every {Actor} has an Avatar, a {Profile} with personal o group information, contact data, etc.
+# Every {Actor} has an Avatar, a {Profile} with personal or group information, contact data, etc.
 #
 # {Actor Actors} perform {ActivityAction actions} (like, suscribe, etc.) on
 # {ActivityObject activity objects} ({Post posts}, {Comment commments}, pictures, events..)
@@ -80,6 +80,19 @@ class Actor < ActiveRecord::Base
            :through => :sent_actions,
            :source  => :activity_object,
            :conditions => { 'activity_actions.follow' => true }
+
+  has_many :authored_activities,
+           :class_name  => "Activity",
+           :foreign_key => :author_id,
+           :dependent   => :destroy
+  has_many :user_authored_activities,
+           :class_name  => "Activity",
+           :foreign_key => :user_author_id,
+           :dependent   => :destroy
+  has_many :owned_activities,
+           :class_name  => "Activity",
+           :foreign_key => :owner_id,
+           :dependent   => :destroy
 
   scope :alphabetic, order('actors.name')
 
