@@ -218,7 +218,11 @@ class Activity < ActiveRecord::Base
     return true unless notificable?
     #Avaible verbs: follow, like, make-friend, post, update
 
-    if direct_object.is_a? Comment
+    if direct_object.class.to_s =~ /^Badge/ and SocialStream.relation_model == :follow
+      owner.followers.each do |p|
+        p.notify(notification_subject, "Youre not supposed to see this", self) unless p == sender
+      end
+    elsif direct_object.is_a? Comment
       participants.each do |p|
         p.notify(notification_subject, "Youre not supposed to see this", self) unless p == sender
       end
