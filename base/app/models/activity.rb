@@ -217,19 +217,25 @@ class Activity < ActiveRecord::Base
   end
 
   def notify
+    binding.pry
     return true unless notificable?
+    return true if self.notified
+    return true if direct_activity_object.try(:object).respond_to? :draft and direct_object.draft # Use updated object
     #Avaible verbs: follow, like, make-friend, post, update
 
     if direct_object.class.to_s =~ /^Badge/ and SocialStream.relation_model == :follow
       owner.followers.each do |p|
         p.notify(notification_subject, "Youre not supposed to see this", self) unless p == sender
+        notified=true
       end
     elsif direct_object.is_a? Comment
       participants.each do |p|
         p.notify(notification_subject, "Youre not supposed to see this", self) unless p == sender
       end
+      notified=true
     elsif ['like','follow','make-friend','post','update'].include? verb and !reflexive?
       receiver.notify(notification_subject, "Youre not supposed to see this", self)
+      notified=true
     end
     true
   end
