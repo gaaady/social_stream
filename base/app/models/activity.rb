@@ -216,29 +216,26 @@ class Activity < ActiveRecord::Base
     is_root? or ['post','update'].include?(root.verb)
   end
 
-  def first_in_object
-    direct_object.activities.first
-  end
-
   def notify
+    binding.pry
     return true unless notificable?
-    return true if first_in_object.notified
+    return true if self.notified
     return true if direct_activity_object.try(:object).respond_to? :draft and direct_object.draft # Use updated object
     #Avaible verbs: follow, like, make-friend, post, update
 
     if direct_object.class.to_s =~ /^Badge/ and SocialStream.relation_model == :follow
       owner.followers.each do |p|
         p.notify(notification_subject, "Youre not supposed to see this", self) unless p == sender
-        first_in_object.update_column(:notified, true)
+        notified=true
       end
     elsif direct_object.is_a? Comment
       participants.each do |p|
         p.notify(notification_subject, "Youre not supposed to see this", self) unless p == sender
       end
-      first_in_object.update_column(:notified, true)
+      notified=true
     elsif ['like','follow','make-friend','post','update'].include? verb and !reflexive?
       receiver.notify(notification_subject, "Youre not supposed to see this", self)
-      first_in_object.update_column(:notified, true)
+      notified=true
     end
     true
   end
