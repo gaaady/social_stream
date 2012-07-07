@@ -244,11 +244,20 @@ class ActivityObject < ActiveRecord::Base
 
 
   def create_post_activity
-    create_activity "post"
+    unless object.respond_to? :draft and object.draft
+      self.notified_after_draft = true
+      save!
+      create_activity "post"
+    end
   end
 
   def create_update_activity
-    create_activity "update"
+    # create_activity "update"
+    if object.respond_to? :draft and (not object.draft) and (not self.notified_after_draft)
+      self.notified_after_draft = true
+      save!
+      create_activity "post"
+    end
   end
 
   def create_activity(verb)
