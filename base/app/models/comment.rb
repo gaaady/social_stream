@@ -1,6 +1,8 @@
 class Comment < ActiveRecord::Base
   include SocialStream::Models::Object
 
+  attr_writer :source_page
+  
   alias_attribute :text, :description
   validates_presence_of :text
 
