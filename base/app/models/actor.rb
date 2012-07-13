@@ -494,7 +494,7 @@ class Actor < ActiveRecord::Base
     # Authentication
     wall = wall.shared_with(options[:for])
 
-    wall = wall.order("created_at desc")
+    wall = wall.order("sorted_by desc")
   end
  
   def logo
@@ -526,11 +526,12 @@ class Actor < ActiveRecord::Base
                      :author_id      => Actor.normalize_id(subject),
                      :user_author_id => Actor.normalize_id(user),
                      :owner_id       => id,
+                     :sorted_by      => Time.zone.now,
                      :relation_ids   => Array(Relation::Public.instance.id)
-    
-    a.activity_objects << activity_object           
+
+    a.activity_objects << activity_object
                     
-    a             
+    a
   end
   
   # Use slug as parameter

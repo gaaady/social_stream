@@ -191,6 +191,7 @@ class ActivityObject < ActiveRecord::Base
     Activity.new :author       => author,
                  :user_author  => user_author,
                  :owner        => owner,
+                 :sorted_by    => Time.zone.now,
                  :relation_ids => relation_ids
   end
 
@@ -267,6 +268,12 @@ class ActivityObject < ActiveRecord::Base
                      :owner        => owner,
                      :relation_ids => relation_ids,
                      :parent_id    => _activity_parent_id
+
+    if object.respond_to? :given_at and object.given_at.present?
+      a.sorted_by = object.given_at.to_datetime
+    else
+      a.sorted_by = created_at
+    end
 
     a.activity_objects << self
 

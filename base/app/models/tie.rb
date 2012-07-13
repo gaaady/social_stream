@@ -147,6 +147,7 @@ class Tie < ActiveRecord::Base
                      :user_author   => contact.user_author,
                      :owner         => contact.receiver,
                      :relation_ids  => contact.receiver.activity_relation_ids,
+                     :sorted_by     => Time.zone.now,
                      :activity_verb => ActivityVerb[contact.verb]
   end
 
