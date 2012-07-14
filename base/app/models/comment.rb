@@ -31,7 +31,7 @@ class Comment < ActiveRecord::Base
  
     self.post_activity.parent.direct_activity_object.increment!(:comment_count) 
     self.post_activity.parent.direct_object.touch unless self.post_activity.parent.direct_object.blank?
-    self.post_activity.parent.direct_activity_object.touch
+    self.post_activity.parent.direct_activity_object.touch unless self.post_activity.parent.direct_activity_object.blank?
     self.post_activity.parent.touch
   end 
  
