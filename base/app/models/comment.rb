@@ -6,7 +6,7 @@ class Comment < ActiveRecord::Base
   alias_attribute :text, :description
   validates_presence_of :text
 
-  after_create :increment_comment_count
+  after_create :increment_comment_count_and_touch
   before_destroy :decrement_comment_count
 
   define_index do
@@ -26,10 +26,13 @@ class Comment < ActiveRecord::Base
   # after_create callback 
   # 
   # Increment comment counter in parent's activity_object with a comment
-  def increment_comment_count 
+  def increment_comment_count_and_touch
     return if self.post_activity.parent.blank?
  
     self.post_activity.parent.direct_activity_object.increment!(:comment_count) 
+    self.post_activity.parent.direct_object.touch unless self.post_activity.parent.direct_object.blank?
+    self.post_activity.parent.direct_activity_object.touch
+    self.post_activity.parent.touch
   end 
  
   # before_destroy callback 
