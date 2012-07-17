@@ -272,7 +272,7 @@ class ActivityObject < ActiveRecord::Base
     if object.respond_to? :given_at and object.given_at.present?
       a.sorted_by = object.given_at.to_datetime
     else
-      a.sorted_by = created_at
+      a.sorted_by = Time.zone.now
     end
 
     a.activity_objects << self
