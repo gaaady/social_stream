@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  root :to => "frontpage#index"
-  
-  match 'home' => 'home#index', :as => :home
-  match 'home' => 'home#index', :as => :user_root # devise after_sign_in_path_for
+  #root :to => "frontpage#index"
 
-  match 'search' => 'search#index', :as => :search
+  #match 'home' => 'home#index', :as => :home
+  #match 'home' => 'home#index', :as => :user_root # devise after_sign_in_path_for
+
+#  match 'search' => 'search#index', :as => :search
 
   # Social Stream subjects configured in config/initializers/social_stream.rb
   SocialStream.subjects.each do |actor|
@@ -64,7 +64,7 @@ Rails.application.routes.draw do
   resources :activity_actions
 
   resource :representation
-  
+
   resources :settings do
     collection do
       put 'update_all'
@@ -76,7 +76,7 @@ Rails.application.routes.draw do
   resources :conversations
 
   resources :invitations
-  
+
   resources :notifications do
     collection do
       put 'update_all'
@@ -88,14 +88,14 @@ Rails.application.routes.draw do
   end
 
   get 'audience/index', :as => :audience
-  
-  match 'cheesecake' => 'cheesecake#index', :as => :cheesecake  
-  match 'update_cheesecake' => 'cheesecake#update', :as => :update_cheesecake  
-  
+
+  match 'cheesecake' => 'cheesecake#index', :as => :cheesecake
+  match 'update_cheesecake' => 'cheesecake#update', :as => :update_cheesecake
+
   match 'ties' => 'ties#index', :as => :ties
-  
+
   match 'tags' => 'tags#index', :as => 'tags'
-  
+
   ##API###
   match 'api/keygen' => 'api#create_key', :as => :api_keygen
   match 'api/user/:id' => 'api#users', :as => :api_user
@@ -107,7 +107,7 @@ Rails.application.routes.draw do
   match 'api/subjects/:s/contacts' => 'contacts#index', :format => 'json', :as => :api_subject_contacts
   ##/API##
 
- 
+
   #Background tasks
   constraints SocialStream::Routing::Constraints::Resque.new do
     mount Resque::Server, :at => "/resque"
