@@ -167,7 +167,7 @@ class Activity < ActiveRecord::Base
 
   # Build a new children activity where subject like this
   def new_like(subject, user)
-    a = children.new :verb           => "like",
+    a = Activity.new :verb           => "like",
                      :author_id      => Actor.normalize_id(subject),
                      :user_author_id => Actor.normalize_id(user),
                      :owner_id       => owner_id,
