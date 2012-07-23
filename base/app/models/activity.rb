@@ -171,6 +171,7 @@ class Activity < ActiveRecord::Base
                      :author_id      => Actor.normalize_id(subject),
                      :user_author_id => Actor.normalize_id(user),
                      :owner_id       => owner_id,
+                     :sorted_by      => Time.zone.now,
                      :relation_ids   => self.relation_ids
 
     if direct_activity_object.present?
