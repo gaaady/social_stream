@@ -204,6 +204,14 @@ class ActivityObject < ActiveRecord::Base
     @_activity_parent_id = id
   end
 
+  def liked_by(actor)
+    post_activity.liked_by(actor)
+  end
+
+  def liked_by?(actor)
+    post_activity.liked_by?(actor)
+  end
+
   private
 
   def fill_owner_id

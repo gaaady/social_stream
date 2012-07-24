@@ -153,7 +153,11 @@ class Activity < ActiveRecord::Base
 
   # The 'like' qualifications emmited to this activities
   def likes
-    children.joins(:activity_verb).where('activity_verbs.name' => "like")
+    if direct_activity_object.present?
+      Activity.joins(:activity_objects).where('activity_objects.id = ?', direct_activity_object.id).joins(:activity_verb).where('activity_verbs.name' => "like")
+    else
+      children.joins(:activity_verb).where('activity_verbs.name' => "like")
+    end
   end
 
   def liked_by(user) #:nodoc:
@@ -167,15 +171,21 @@ class Activity < ActiveRecord::Base
 
   # Build a new children activity where subject like this
   def new_like(subject, user)
-    a = Activity.new :verb           => "like",
-                     :author_id      => Actor.normalize_id(subject),
-                     :user_author_id => Actor.normalize_id(user),
-                     :owner_id       => owner_id,
-                     :sorted_by      => Time.zone.now,
-                     :relation_ids   => self.relation_ids
-
     if direct_activity_object.present?
+      a = Activity.new :verb           => "like",
+                       :author_id      => Actor.normalize_id(subject),
+                       :user_author_id => Actor.normalize_id(user),
+                       :owner_id       => owner_id,
+                       :sorted_by      => Time.zone.now,
+                       :relation_ids   => self.relation_ids
       a.activity_objects << direct_activity_object
+    else
+      a = children.new :verb           => "like",
+                       :author_id      => Actor.normalize_id(subject),
+                       :user_author_id => Actor.normalize_id(user),
+                       :owner_id       => owner_id,
+                       :sorted_by      => Time.zone.now,
+                       :relation_ids   => self.relation_ids
     end
 
     a
