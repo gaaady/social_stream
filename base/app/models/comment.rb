@@ -21,6 +21,12 @@ class Comment < ActiveRecord::Base
     description.truncate(30, :separator =>' ')
   end
 
+  def header
+    return "commented on #{self.parent_post.title}" if self.parent_post
+    "" #fallback...
+  end
+
+
   private
 
   # after_create callback 
