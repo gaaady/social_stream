@@ -175,7 +175,7 @@ class Activity < ActiveRecord::Base
       a = Activity.new :verb           => "like",
                        :author_id      => Actor.normalize_id(subject),
                        :user_author_id => Actor.normalize_id(user),
-                       :owner_id       => owner_id,
+                       :owner_id       => Actor.normalize_id(subject),
                        :sorted_by      => Time.zone.now,
                        :relation_ids   => self.relation_ids
       a.activity_objects << direct_activity_object
@@ -183,7 +183,7 @@ class Activity < ActiveRecord::Base
       a = children.new :verb           => "like",
                        :author_id      => Actor.normalize_id(subject),
                        :user_author_id => Actor.normalize_id(user),
-                       :owner_id       => owner_id,
+                       :owner_id       => Actor.normalize_id(subject),
                        :sorted_by      => Time.zone.now,
                        :relation_ids   => self.relation_ids
     end
