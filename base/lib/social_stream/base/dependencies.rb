@@ -30,7 +30,7 @@ require 'kaminari'
 # Oauth
 require 'omniauth'
 require 'omniauth-facebook'
-require 'omniauth-linkedin'
+#require 'omniauth-linkedin'
 #Tags
 require 'acts-as-taggable-on'
 require 'acts_as_taggable_on/social_stream'
