@@ -39,7 +39,7 @@ module SocialStream
     end
   end
 
-  autoload :Search, 'social_stream/search'
+  #autoload :Search, 'social_stream/search'
 
   module Views
     autoload :List,     'social_stream/views/list'
