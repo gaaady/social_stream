@@ -35,7 +35,7 @@ require 'omniauth-facebook'
 require 'acts-as-taggable-on'
 require 'acts_as_taggable_on/social_stream'
 # HTML forms
-require 'formtastic'
+#require 'formtastic'
 #Background tasks
 require 'resque/server'
 # Modernizr.js library
