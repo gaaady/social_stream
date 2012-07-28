@@ -7,11 +7,11 @@ class Audio < Document
   
   process_in_background :file    
   
-  define_index do
-    activity_object_index
+  #define_index do
+    #activity_object_index
 
-    indexes file_file_name, :as => :file_name
-  end 
+    #indexes file_file_name, :as => :file_name
+  #end 
               
   # Thumbnail file
   def thumb(size, helper)
