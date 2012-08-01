@@ -10,28 +10,28 @@ Rails.application.routes.draw do
   SocialStream.subjects.each do |actor|
     resources actor.to_s.pluralize do
       resource :like
-      resource :profile
+      #resource :profile
       resources :activities
 
       # Nested Social Stream objects configured in config/initializers/social_stream.rb
       #
       # /users/demo/posts
-      (SocialStream.objects - [ :actor ]).each do |object|
-        resources object.to_s.pluralize do
-          get 'search', :on => :collection
-        end
-      end
+      #(SocialStream.objects - [ :actor ]).each do |object|
+        #resources object.to_s.pluralize do
+          #get 'search', :on => :collection
+        #end
+      #end
     end
   end
 
   # Social Stream objects configured in config/initializers/social_stream.rb
   #
   # /posts
-  (SocialStream.objects - [ :actor ]).each do |object|
-    resources object.to_s.pluralize do
-      get 'search', :on => :collection
-    end
-  end
+  #(SocialStream.objects - [ :actor ]).each do |object|
+    #resources object.to_s.pluralize do
+      #get 'search', :on => :collection
+    #end
+  #end
 
   resources :comments
 
@@ -65,11 +65,11 @@ Rails.application.routes.draw do
 
   resource :representation
 
-  resources :settings do
-    collection do
-      put 'update_all'
-    end
-  end
+  #resources :settings do
+    #collection do
+      #put 'update_all'
+    #end
+  #end
 
   resources :messages
 
@@ -97,21 +97,21 @@ Rails.application.routes.draw do
   match 'tags' => 'tags#index', :as => 'tags'
 
   ##API###
-  match 'api/keygen' => 'api#create_key', :as => :api_keygen
-  match 'api/user/:id' => 'api#users', :as => :api_user
-  match 'api/me' => 'api#users', :as => :api_me
-  match 'api/me/home/' => 'api#activity_atom_feed', :format => 'atom', :as => :api_my_home
-  match 'api/user/:id/public' => 'api#activity_atom_feed', :format => 'atom', :as => :api_user_activities
+  #match 'api/keygen' => 'api#create_key', :as => :api_keygen
+  #match 'api/user/:id' => 'api#users', :as => :api_user
+  #match 'api/me' => 'api#users', :as => :api_me
+  #match 'api/me/home/' => 'api#activity_atom_feed', :format => 'atom', :as => :api_my_home
+  #match 'api/user/:id/public' => 'api#activity_atom_feed', :format => 'atom', :as => :api_user_activities
 
-  match 'api/me/contacts' => 'contacts#index', :format => 'json', :as => :api_contacts
-  match 'api/subjects/:s/contacts' => 'contacts#index', :format => 'json', :as => :api_subject_contacts
+  #match 'api/me/contacts' => 'contacts#index', :format => 'json', :as => :api_contacts
+  #match 'api/subjects/:s/contacts' => 'contacts#index', :format => 'json', :as => :api_subject_contacts
   ##/API##
 
 
   #Background tasks
-  constraints SocialStream::Routing::Constraints::Resque.new do
-    mount Resque::Server, :at => "/resque"
-  end
+  #constraints SocialStream::Routing::Constraints::Resque.new do
+    #mount Resque::Server, :at => "/resque"
+  #end
 
   # Webfinger
   match '.well-known/host-meta',:to => 'frontpage#host_meta'

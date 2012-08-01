@@ -37,7 +37,7 @@ require 'acts_as_taggable_on/social_stream'
 # HTML forms
 #require 'formtastic'
 #Background tasks
-require 'resque/server'
+#require 'resque/server'
 # Modernizr.js library
 require 'modernizr-rails'
 # Sphinx search engine
