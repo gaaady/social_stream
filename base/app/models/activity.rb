@@ -153,7 +153,7 @@ class Activity < ActiveRecord::Base
 
   # The 'like' qualifications emmited to this activities
   def likes
-    if direct_activity_object.present?
+    if direct_activity_object.present? and direct_activity_object.object_type != "Comment"
       Activity.joins(:activity_objects).where('activity_objects.id = ?', direct_activity_object.id).joins(:activity_verb).where('activity_verbs.name' => "like")
     else
       children.joins(:activity_verb).where('activity_verbs.name' => "like")
