@@ -171,7 +171,7 @@ class Activity < ActiveRecord::Base
 
   # Build a new children activity where subject like this
   def new_like(subject, user)
-    if direct_activity_object.present?
+    if direct_activity_object.present? and direct_activity_object.object_type != "Comment"
       a = Activity.new :verb           => "like",
                        :author_id      => Actor.normalize_id(subject),
                        :user_author_id => Actor.normalize_id(user),
@@ -186,6 +186,7 @@ class Activity < ActiveRecord::Base
                        :owner_id       => Actor.normalize_id(subject),
                        :sorted_by      => Time.zone.now,
                        :relation_ids   => self.relation_ids
+      a.activity_objects << direct_activity_object if direct_activity_object.present?
     end
 
     a
