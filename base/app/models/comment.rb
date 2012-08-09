@@ -45,7 +45,7 @@ class Comment < ActiveRecord::Base
   # 
   # Decrement comment counter in parent's activity_object when comment is destroyed 
   def decrement_comment_count 
-    return if self.post_activity.blank? || self.post_activity.parent.blank?
+    return if self.post_activity.blank? or self.post_activity.parent.blank? or self.post_activity.parent.direct_activity_object.blank?
  
     self.post_activity.parent.direct_activity_object.decrement!(:comment_count) 
   end 
