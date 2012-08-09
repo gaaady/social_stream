@@ -426,7 +426,7 @@ class Activity < ActiveRecord::Base
   # Destroy children comments when the activity is destroyed
   def destroy_children_comments
     comments.each do |c|
-      c.direct_object.destroy
+      c.direct_object.destroy unless c.direct_object.nil?
     end
   end
 
