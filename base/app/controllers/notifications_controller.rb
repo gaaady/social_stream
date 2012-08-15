@@ -29,7 +29,7 @@ class NotificationsController < ApplicationController
       if params[:read].eql?("Read")
         @actor.mark_as_read @notification
       elsif params[:read].eql?("Unread")
-        @actor.mark_as_unreadunread @notification
+        @actor.mark_as_unread @notification
       end
     end
     @notifications = @mailbox.notifications.not_trashed.page(params[:page]).per(10)
