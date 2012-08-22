@@ -34,9 +34,8 @@ class Actor < ActiveRecord::Base
   has_one :profile, :dependent => :destroy
 
   has_many :avatars,
-           :validate => true,
-           :autosave => true,
-           :dependent => :destroy
+           :validate => false,
+           :autosave => false
   has_one  :avatar,
            :conditions => { :active => true }
   		  
