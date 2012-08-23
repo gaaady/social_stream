@@ -232,16 +232,22 @@ class Activity < ActiveRecord::Base
     return true unless notificable?
     #Avaible verbs: follow, like, make-friend, post, update
 
-    if direct_object.present? and direct_object.class.to_s =~ /^Badge|BlogPost/ and SocialStream.relation_model == :follow
-      owner.followers.each do |p|
-        p.notify(notification_subject, "Youre not supposed to see this", self) unless p == sender
+    if direct_object.present? and direct_object.class.to_s =~ /^Badge/ and SocialStream.relation_model == :follow
+      owner.followers.each do |p| # Notify all followers
+        p.notify(notification_subject, "Youre not supposed to see this", self, true, nil, false ) unless p == sender
+      end
+    elsif direct_object.present? and direct_object.class.to_s =~ /^BlogPost/ and SocialStream.relation_model == :follow
+      owner.followers.each do |p| # Notify and email all followers
+        p.notify(notification_subject, "Youre not supposed to see this", self, true, nil, true ) unless p == sender
       end
     elsif direct_object.is_a? Comment
       participants.each do |p|
-        p.notify(notification_subject, "Youre not supposed to see this", self) unless p == sender
+        # Notify everyone in the conversation, email only the original post owner
+        p.notify(notification_subject, "Youre not supposed to see this", self, true, nil, (p==direct_object.parent_post.owner)) unless p == sender
       end
     elsif ['like','follow','make-friend','post','update'].include? verb and !reflexive?
-      receiver.notify(notification_subject, "Youre not supposed to see this", self)
+      # Notify receiver, send email if "follow", "make-friend", "post" or "update", but not if "like"
+      receiver.notify(notification_subject, "Youre not supposed to see this", self, true, nil, (verb != "like"))
     end
     true
   end
