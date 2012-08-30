@@ -278,7 +278,8 @@ class ActivityObject < ActiveRecord::Base
                      :parent_id    => _activity_parent_id
 
     if object.respond_to? :given_at and object.given_at.present?
-      a.sorted_by = object.given_at.to_datetime
+      delta = Time.zone.now - Time.zone.now.beginning_of_day
+      a.sorted_by = object.given_at + delta.seconds
     else
       a.sorted_by = Time.zone.now
     end
