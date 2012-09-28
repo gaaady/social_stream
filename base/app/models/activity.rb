@@ -234,7 +234,7 @@ class Activity < ActiveRecord::Base
 
     if direct_object.present? and direct_object.class.to_s =~ /^Badge/ and SocialStream.relation_model == :follow
       owner.followers.each do |p| # Notify all followers
-        p.notify(notification_subject, "Youre not supposed to see this", self, true, nil, true ) unless p == sender
+        p.notify(notification_subject, "Youre not supposed to see this", self, true, nil, false ) unless p == sender
       end
     elsif direct_object.present? and direct_object.class.to_s =~ /^BlogPost/ and SocialStream.relation_model == :follow
       owner.followers.each do |p| # Notify and email all followers
