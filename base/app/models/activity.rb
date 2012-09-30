@@ -240,6 +240,9 @@ class Activity < ActiveRecord::Base
       owner.followers.each do |p| # Notify and email all followers
         p.notify(notification_subject, "Youre not supposed to see this", self, true, nil, true ) unless p == sender
       end
+     elsif direct_object.present? and direct_object.class.to_s =~ /^Reason/ and SocialStream.relation_model == :follow
+      owner.followers.each do |p| # Notify all followers
+        p.notify(notification_subject, "Youre not supposed to see this", self, true, nil, false ) unless p == sender     end
     elsif direct_object.is_a? Comment
       participants.each do |p|
         # Notify everyone in the conversation, email only the original post owner
