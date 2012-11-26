@@ -232,7 +232,7 @@ class Activity < ActiveRecord::Base
     return true unless notificable?
     #Avaible verbs: follow, like, make-friend, post, update
 
-    if verb == "like" and !reflexive?
+    if verb == "like" && !reflexive?
       receiver.notify(notification_subject, "Youre not supposed to see this", self, true, nil, false)
       return true
     end
