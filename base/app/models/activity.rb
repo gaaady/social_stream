@@ -225,12 +225,17 @@ class Activity < ActiveRecord::Base
   end
 
   def notificable?
-    is_root? or ['post','update'].include?(root.verb)
+    is_root? or ['post','update', 'like'].include?(root.verb)
   end
 
   def notify
     return true unless notificable?
     #Avaible verbs: follow, like, make-friend, post, update
+
+    if verb == "like" and !reflexive?
+      receiver.notify(notification_subject, "Youre not supposed to see this", self, true, nil, false)
+      return true
+    end
 
     if direct_object.present? and direct_object.class.to_s =~ /^Badge/ and SocialStream.relation_model == :follow
       owner.followers.each do |p| # Notify all followers
