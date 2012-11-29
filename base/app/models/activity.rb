@@ -173,17 +173,17 @@ class Activity < ActiveRecord::Base
   def new_like(subject, user)
     if direct_activity_object.present? and direct_activity_object.object_type != "Comment"
       a = Activity.new :verb           => "like",
-                       :author_id      => Actor.normalize_id(self.owner),
+                       :author_id      => Actor.normalize_id(subject),
                        :user_author_id => Actor.normalize_id(user),
-                       :owner_id       => Actor.normalize_id(subject),
+                       :owner_id       => owner_id,
                        :sorted_by      => Time.zone.now,
                        :relation_ids   => self.relation_ids
       a.activity_objects << direct_activity_object
     else
       a = children.new :verb           => "like",
-                       :author_id      => Actor.normalize_id(self.owner),
+                       :author_id      => Actor.normalize_id(subject),
                        :user_author_id => Actor.normalize_id(user),
-                       :owner_id       => Actor.normalize_id(subject),
+                       :owner_id       => owner_id,
                        :sorted_by      => Time.zone.now,
                        :relation_ids   => self.relation_ids
       a.activity_objects << direct_activity_object if direct_activity_object.present?
